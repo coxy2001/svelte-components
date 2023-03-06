@@ -1,5 +1,5 @@
 <script lang="ts">
-    import CustomModal from "./examples/CustomModal.svelte";
+    import CustomModal from "./examples/ModalExample.svelte";
 
     let showModal = false;
 
