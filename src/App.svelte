@@ -1,11 +1,12 @@
 <script lang="ts">
     import "./scss/app.scss";
+    import type { IdItem, Item } from "./components/ListBoxItem.svelte";
     import Select from "./components/Select.svelte";
     import MultiSelect from "./components/MultiSelect.svelte";
 
     let value: any,
-        selectedItems: any[] = [],
-        items: any[] = [
+        selectedItems: IdItem[] = [],
+        items: Item[] = [
             { label: "Hello", value: 0 },
             { label: "Hello World", value: 2 },
             { label: "World", value: 5 },

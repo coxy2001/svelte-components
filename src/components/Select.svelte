@@ -1,18 +1,11 @@
 <script lang="ts">
     import "../scss/combobox.scss";
+    import type { IdItem, Item } from "./ListBoxItem.svelte";
     import ChevronDown from "../icons/ChevronDown.svelte";
     import Cross from "../icons/Cross.svelte";
-    import Tick from "../icons/Tick.svelte";
-    import { tick } from "svelte";
+    import ListBox from "./ListBox.svelte";
+    import ListBoxItem from "./ListBoxItem.svelte";
     import { clickOutside } from "../lib/clickOutside";
-
-    type Item = {
-        label: string;
-        value: any;
-    };
-    type IdItem = Item & {
-        id: any;
-    };
 
     export let name: string,
         search = "",
@@ -42,14 +35,30 @@
 
     $: value = selectedItem?.value;
 
-    $: if (highlightedIndex > -1) {
-        tick().then(() => {
-            document
-                .querySelector(
-                    ".combobox__listbox-item--highlighted:not(:hover)"
-                )
-                ?.scrollIntoView({ block: "nearest" });
-        });
+    function keyPress(event: KeyboardEvent) {
+        const key = event.key;
+
+        input?.focus();
+
+        if (key === "Enter") {
+            if (!open) {
+                expand();
+            } else if (highlightedIndex >= 0) {
+                select(highlightedIndex);
+            } else if (search) {
+                select(0);
+            }
+        } else if (event.altKey && key === "ArrowDown") {
+            expand();
+        } else if (event.altKey && key === "ArrowUp") {
+            collapse();
+        } else if (key === "ArrowDown") {
+            next();
+        } else if (key === "ArrowUp") {
+            prev();
+        } else if (key === "Escape" || key === "Tab") {
+            collapse();
+        }
     }
 
     function next() {
@@ -123,29 +132,7 @@
             bind:this={input}
             bind:value={search}
             on:input={expand}
-            on:keydown={(event) => {
-                const key = event.key;
-
-                if (key === "Enter") {
-                    if (!open) {
-                        expand();
-                    } else if (highlightedIndex >= 0) {
-                        select(highlightedIndex);
-                    } else if (search) {
-                        select(0);
-                    }
-                } else if (event.altKey && key === "ArrowDown") {
-                    expand();
-                } else if (event.altKey && key === "ArrowUp") {
-                    collapse();
-                } else if (key === "ArrowDown") {
-                    next();
-                } else if (key === "ArrowUp") {
-                    prev();
-                } else if (key === "Escape" || key === "Tab") {
-                    collapse();
-                }
-            }}
+            on:keydown={keyPress}
             on:focusin={(event) => event.currentTarget.select()}
         />
         <ChevronDown class="combobox__input-chevron" />
@@ -165,36 +152,18 @@
     </button>
 
     {#if open}
-        <div
-            id="{name}_listbox"
-            class="combobox__listbox"
-            class:combobox__listbox--top={top}
-            role="listbox"
-        >
+        <ListBox id="{name}_listbox" {top}>
             {#each filteredItems as item, i (item.id)}
-                {@const selected = item.id === selectedItem?.id}
-                {@const highlighted = i === highlightedIndex}
-                <div
-                    class="combobox__listbox-item"
-                    class:combobox__listbox-item--selected={selected}
-                    class:combobox__listbox-item--highlighted={highlighted}
-                    role="option"
-                    tabindex="-1"
-                    aria-selected={selected}
-                    on:click={() => {
-                        select(i);
-                    }}
-                    on:keydown
-                    on:focus={() => (highlightedIndex = i)}
+                <ListBoxItem
+                    {item}
+                    selected={item.id === selectedItem?.id}
+                    highlighted={i === highlightedIndex}
+                    on:click={() => select(i)}
+                    on:keydown={keyPress}
                     on:mouseover={() => (highlightedIndex = i)}
                     on:mouseleave={() => (highlightedIndex = -1)}
-                >
-                    {#if selected}
-                        <Tick class="combobox__listbox-item-check" />
-                    {/if}
-                    {item.label}
-                </div>
+                />
             {/each}
-        </div>
+        </ListBox>
     {/if}
 </div>
