@@ -5,7 +5,8 @@
 
     export let title: string, close: VoidFunction;
 
-    let dialogFly = true;
+    let dialog: HTMLElement,
+        dialogFly = true;
 
     const documentWidth = document.documentElement.clientWidth;
     const scrollbarWidth = Math.abs(window.innerWidth - documentWidth);
@@ -15,28 +16,34 @@
     document.body.style.overflowY = "hidden";
 
     onDestroy(() => {
-        document.body.style.paddingRight = null;
-        document.body.style.overflowY = null;
+        document.body.style.paddingRight = "";
+        document.body.style.overflowY = "";
     });
 </script>
 
 <div
     class="modal"
-    on:click={close}
-    on:keypress={close}
+    role="presentation"
+    tabindex="-1"
+    bind:this={dialog}
+    on:keydown={(event) => {
+        if (event.key === "Escape") close();
+    }}
     transition:fade={{ duration: 200 }}
     on:introstart={() => {
         dialogFly = false;
+        dialog.focus();
     }}
     on:outrostart={() => {
         dialogFly = true;
     }}
 >
+    <div class="modal__backdrop" role="presentation" on:click={close} />
     <div
         class="modal__dialog"
         class:modal__dialog--fly={dialogFly}
-        on:click|stopPropagation
-        on:keypress|stopPropagation
+        role="dialog"
+        aria-label={title}
     >
         <div class="modal__header">
             <div class="modal__header-title">{title}</div>

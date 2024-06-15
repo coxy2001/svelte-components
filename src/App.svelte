@@ -3,6 +3,9 @@
     import type { IdItem, Item } from "./components/ListBoxItem.svelte";
     import ComboBox from "./components/ComboBox.svelte";
     import ComboBoxMulti from "./components/ComboBoxMulti.svelte";
+    import ModalExample from "./examples/ModalExample.svelte";
+
+    let modalOpen = false;
 
     let value: any,
         selectedItems: IdItem[] = [],
@@ -35,6 +38,8 @@
 </script>
 
 <main>
+    <button on:click={() => (modalOpen = !modalOpen)}>Open Modal</button>
+
     <p>Selected Item: {value}</p>
 
     <p></p>
@@ -66,6 +71,10 @@
     <label for="select_2">Select a thing</label>
     <ComboBoxMulti name="select_2" {items} bind:selectedItems />
 </main>
+
+{#if modalOpen}
+    <ModalExample close={() => (modalOpen = false)} />
+{/if}
 
 <style>
     label {
