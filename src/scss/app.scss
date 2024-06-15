@@ -38,6 +38,21 @@ hr {
     margin-bottom: 1rem;
 }
 
+label {
+    display: block;
+    padding: 0.25em 0;
+}
+
+input,
+select {
+    font: inherit;
+    display: block;
+    padding: 0.25em 0.75em;
+    width: 100%;
+    border: 1px solid #fff;
+    border-radius: 0.25rem;
+}
+
 @media (prefers-color-scheme: light) {
     body {
         color: #000;

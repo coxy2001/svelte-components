@@ -58,16 +58,6 @@
 
     <p></p>
 
-    <!-- <p>Selected Items:</p>
-
-    <ul>
-        {#each selectedItems as item}
-            <li>{item.label}: {item.value}</li>
-        {/each}
-    </ul>
-
-    <p></p> -->
-
     <label for="select_2">Select a thing</label>
     <ComboBoxMulti name="select_2" {items} bind:selectedItems />
 </main>
@@ -75,18 +65,3 @@
 {#if modalOpen}
     <ModalExample close={() => (modalOpen = false)} />
 {/if}
-
-<style>
-    label {
-        display: block;
-        padding: 0.25em 0;
-    }
-    select {
-        font: inherit;
-        display: block;
-        padding: 0.25em 0.75em;
-        width: 100%;
-        border: 1px solid #fff;
-        border-radius: 0.25rem;
-    }
-</style>
