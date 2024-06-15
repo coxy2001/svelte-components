@@ -5,7 +5,7 @@
     import Cross from "../icons/Cross.svelte";
     import ListBox from "./ListBox.svelte";
     import ListBoxItem from "./ListBoxItem.svelte";
-    import { clickOutside } from "../lib/clickOutside";
+    import { autoSelect, clickOutside } from "../lib/actions";
 
     export let name: string,
         search = "",
@@ -131,9 +131,9 @@
             aria-expanded={open}
             bind:this={input}
             bind:value={search}
+            use:autoSelect
             on:input={expand}
             on:keydown={keyPress}
-            on:focusin={(event) => event.currentTarget.select()}
         />
         <ChevronDown class="combobox__input-chevron" />
         {#if search}
