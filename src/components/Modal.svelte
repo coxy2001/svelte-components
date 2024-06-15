@@ -2,6 +2,7 @@
     import "../scss/modal.scss";
     import { onDestroy } from "svelte";
     import { fade } from "svelte/transition";
+    import Cross from "../icons/Cross.svelte";
 
     export let title: string, close: VoidFunction;
 
@@ -29,7 +30,8 @@
     on:keydown={(event) => {
         if (event.key === "Escape") close();
     }}
-    transition:fade={{ duration: 200 }}
+    in:fade={{ duration: 200 }}
+    out:fade={{ delay: 100, duration: 200 }}
     on:introstart={() => {
         dialogFly = false;
         dialog.focus();
@@ -47,7 +49,9 @@
     >
         <div class="modal__header">
             <div class="modal__header-title">{title}</div>
-            <button class="modal__header-close" on:click={close} />
+            <button class="modal__header-close" on:click={close}>
+                <Cross />
+            </button>
         </div>
         <div class="modal__body">
             <slot>This modal is missing a body</slot>
