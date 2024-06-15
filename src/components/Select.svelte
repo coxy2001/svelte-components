@@ -3,6 +3,7 @@
     import ChevronDown from "../icons/ChevronDown.svelte";
     import Cross from "../icons/Cross.svelte";
     import Tick from "../icons/Tick.svelte";
+    import { tick } from "svelte";
     import { clickOutside } from "../lib/clickOutside";
 
     type Item = {
@@ -40,6 +41,16 @@
     }
 
     $: value = selectedItem?.value;
+
+    $: if (highlightedIndex > -1) {
+        tick().then(() => {
+            document
+                .querySelector(
+                    ".combobox__listbox-item--highlighted:not(:hover)"
+                )
+                ?.scrollIntoView({ block: "nearest" });
+        });
+    }
 
     function next() {
         if (
