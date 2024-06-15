@@ -94,10 +94,6 @@
 
         &--selected {
             background-color: #444;
-
-            &::before {
-                content: "";
-            }
         }
         &--highlighted {
             background-color: #888;
