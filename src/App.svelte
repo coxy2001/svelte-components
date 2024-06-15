@@ -1,8 +1,8 @@
 <script lang="ts">
     import "./scss/app.scss";
     import type { IdItem, Item } from "./components/ListBoxItem.svelte";
-    import Select from "./components/Select.svelte";
-    import MultiSelect from "./components/MultiSelect.svelte";
+    import ComboBox from "./components/ComboBox.svelte";
+    import ComboBoxMulti from "./components/ComboBoxMulti.svelte";
 
     let value: any,
         selectedItems: IdItem[] = [],
@@ -40,7 +40,7 @@
     <p></p>
 
     <label for="select">Select a thing</label>
-    <Select name="select" {items} bind:value />
+    <ComboBox name="select" {items} bind:value />
 
     <p></p>
 
@@ -64,7 +64,7 @@
     <p></p> -->
 
     <label for="select_2">Select a thing</label>
-    <MultiSelect name="select_2" {items} bind:selectedItems />
+    <ComboBoxMulti name="select_2" {items} bind:selectedItems />
 </main>
 
 <style>

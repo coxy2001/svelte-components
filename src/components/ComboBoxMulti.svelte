@@ -15,18 +15,15 @@
 
     $: listItems =
         idItems ?? items?.map((item, i) => ({ id: i, ...item })) ?? [];
-    $: filteredItems = changed
-        ? listItems.filter((item) =>
-              item.label.toLowerCase().includes(search.toLowerCase())
-          )
-        : listItems;
+    $: filteredItems = listItems.filter((item) =>
+        item.label.toLowerCase().includes(search.toLowerCase())
+    );
 
     $: selectedItemIds = selectedItems.map((item) => item.id);
 
     let input: HTMLInputElement | undefined,
         open = false,
         top = false,
-        changed = false,
         highlightedIndex = -1;
 
     $: if (!search) {
@@ -95,15 +92,12 @@
             open = true;
             const inputHeight = input?.getBoundingClientRect().top ?? 0;
             top = inputHeight / window.innerHeight > 0.5;
-        } else if (!changed) {
-            changed = true;
         }
     }
 
     function collapse() {
         if (open) {
             open = false;
-            changed = false;
             search = "";
             highlightedIndex = -1;
         }
