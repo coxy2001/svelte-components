@@ -1,4 +1,5 @@
 <script lang="ts">
+    import "../scss/modal.scss";
     import { onDestroy } from "svelte";
     import { fade } from "svelte/transition";
 

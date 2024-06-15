@@ -1,0 +1,88 @@
+.combobox {
+    position: relative;
+
+    &__button {
+        font: inherit;
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0;
+        background: none;
+        border: none;
+    }
+
+    &__input {
+        font: inherit;
+        display: block;
+        width: 100%;
+        padding: 0.25em 3.5em 0.25em 0.75em;
+        border: 1px solid #fff;
+        border-radius: 0.25rem;
+
+        &--empty {
+            padding: 0.25em 2em 0.25em 0.75em;
+        }
+    }
+
+    &__input-chevron {
+        position: absolute;
+        right: 0.5em;
+        width: 1em;
+        height: 1em;
+    }
+
+    &__input-clear {
+        font: inherit;
+        position: absolute;
+        right: 1.75em;
+        display: flex;
+        padding: 0.25em;
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        > svg {
+            width: 1em;
+            height: 1em;
+        }
+    }
+
+    &__listbox {
+        position: absolute;
+        width: 100%;
+        max-height: 40svh;
+        overflow-y: auto;
+        background-color: #222;
+        border: 1px solid #fff;
+        user-select: none;
+        z-index: 1;
+    }
+
+    &__listbox-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 0.25em 0.75em 0.25em 1.75em;
+        border: 1px solid #fff;
+        cursor: pointer;
+
+        &--selected {
+            background-color: #444;
+
+            &::before {
+                content: "";
+            }
+        }
+        &--highlighted {
+            background-color: #888;
+        }
+    }
+
+    &__listbox-item-check {
+        position: absolute;
+        left: 0.5em;
+        width: 1em;
+        height: 1em;
+    }
+}
