@@ -1,5 +1,8 @@
 <script lang="ts">
     import "../scss/combobox.scss";
+    import ChevronDown from "../icons/ChevronDown.svelte";
+    import Cross from "../icons/Cross.svelte";
+    import Tick from "../icons/Tick.svelte";
     import { clickOutside } from "../lib/clickOutside";
 
     type Item = {
@@ -134,20 +137,7 @@
             }}
             on:focusin={(event) => event.currentTarget.select()}
         />
-        <svg
-            class="combobox__input-chevron"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="m6 9 6 6 6-6" />
-        </svg>
+        <ChevronDown class="combobox__input-chevron" />
         {#if search}
             <button
                 class="combobox__input-clear"
@@ -158,20 +148,7 @@
                     input?.focus();
                 }}
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
-                </svg>
+                <Cross />
             </button>
         {/if}
     </button>
@@ -202,20 +179,7 @@
                     on:mouseleave={() => (highlightedIndex = -1)}
                 >
                     {#if selected}
-                        <svg
-                            class="combobox__listbox-item-check"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M20 6 9 17l-5-5" />
-                        </svg>
+                        <Tick class="combobox__listbox-item-check" />
                     {/if}
                     {item.label}
                 </div>
