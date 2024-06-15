@@ -43,7 +43,16 @@
 
     <p></p>
 
-    <p>Selected Items:</p>
+    <label for="select_real">Select a thing</label>
+    <select name="select_real" bind:value>
+        {#each items as item}
+            <option value={item.value}>{item.label}</option>
+        {/each}
+    </select>
+
+    <p></p>
+
+    <!-- <p>Selected Items:</p>
 
     <ul>
         {#each selectedItems as item}
@@ -51,12 +60,10 @@
         {/each}
     </ul>
 
-    <p></p>
+    <p></p> -->
 
-    <div style="font-size: 1.5rem;">
-        <label for="select_2">Select a thing</label>
-        <MultiSelect name="select_2" {items} bind:selectedItems />
-    </div>
+    <label for="select_2">Select a thing</label>
+    <MultiSelect name="select_2" {items} bind:selectedItems />
 </main>
 
 <style>
