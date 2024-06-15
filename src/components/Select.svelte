@@ -27,6 +27,7 @@
 
     let input: HTMLInputElement | undefined,
         open = false,
+        top = false,
         changed = false,
         highlightedIndex = -1;
 
@@ -69,6 +70,8 @@
             highlightedIndex = filteredItems.findIndex(
                 (item) => item.id === selectedItem?.id
             );
+            const inputHeight = input?.getBoundingClientRect().top ?? 0;
+            top = inputHeight / window.innerHeight > 0.5;
         } else if (!changed) {
             changed = true;
         }
@@ -173,7 +176,12 @@
     </button>
 
     {#if open}
-        <div id="{name}_listbox" class="combobox__listbox" role="listbox">
+        <div
+            id="{name}_listbox"
+            class="combobox__listbox"
+            class:combobox__listbox--top={top}
+            role="listbox"
+        >
             {#each filteredItems as item, i (item.id)}
                 {@const selected = item.id === selectedItem?.id}
                 {@const highlighted = i === highlightedIndex}

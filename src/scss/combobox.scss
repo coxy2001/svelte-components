@@ -18,7 +18,7 @@
         width: 100%;
         padding: 0.25em 3.5em 0.25em 0.75em;
         border: 1px solid #fff;
-        border-radius: 0.25rem;
+        border-radius: 0.25em;
 
         &--empty {
             padding: 0.25em 2em 0.25em 0.75em;
@@ -57,6 +57,10 @@
         border: 1px solid #fff;
         user-select: none;
         z-index: 1;
+
+        &--top {
+            bottom: 100%;
+        }
     }
 
     &__listbox-item {
