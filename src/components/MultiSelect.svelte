@@ -12,8 +12,7 @@
 
     export let name: string,
         search = "",
-        value: any = undefined,
-        selectedItem: IdItem | undefined = undefined,
+        selectedItems: IdItem[] = [],
         items: Item[] | undefined = undefined,
         idItems: IdItem[] | undefined = undefined;
 
@@ -25,6 +24,8 @@
           )
         : listItems;
 
+    $: selectedItemIds = selectedItems.map((item) => item.id);
+
     let input: HTMLInputElement | undefined,
         open = false,
         top = false,
@@ -32,11 +33,8 @@
         highlightedIndex = -1;
 
     $: if (!search) {
-        selectedItem = undefined;
         highlightedIndex = -1;
     }
-
-    $: value = selectedItem?.value;
 
     function next() {
         if (
@@ -59,17 +57,19 @@
 
     function select(index: number) {
         if (index >= 0 && index < filteredItems.length) {
-            selectedItem = filteredItems[index];
-            collapse();
+            const selectedItem = filteredItems[index];
+            if (selectedItemIds.includes(selectedItem.id)) {
+                selectedItems.splice(selectedItems.indexOf(selectedItem), 1);
+            } else {
+                selectedItems.push(selectedItem);
+            }
+            selectedItems = selectedItems;
         }
     }
 
     function expand() {
         if (!open) {
             open = true;
-            highlightedIndex = filteredItems.findIndex(
-                (item) => item.id === selectedItem?.id
-            );
             const inputHeight = input?.getBoundingClientRect().top ?? 0;
             top = inputHeight / window.innerHeight > 0.5;
         } else if (!changed) {
@@ -81,7 +81,7 @@
         if (open) {
             open = false;
             changed = false;
-            search = selectedItem?.label ?? "";
+            search = "";
             highlightedIndex = -1;
         }
     }
@@ -96,12 +96,41 @@
             if (event.key === " ") event.preventDefault();
         }}
     >
+        {#if selectedItems.length}
+            <button
+                class="combobox__input-selected"
+                tabindex="-1"
+                on:click={(event) => {
+                    event.stopPropagation();
+                    search = "";
+                    selectedItems = [];
+                    collapse();
+                }}
+            >
+                {selectedItems.length}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+        {/if}
         <input
             type="text"
             id={name}
             name="{name}_input"
             class="combobox__input"
             class:combobox__input--empty={!search}
+            class:combobox__input--selected={selectedItems.length}
             role="combobox"
             aria-autocomplete="list"
             aria-controls="{name}_listbox"
@@ -184,7 +213,7 @@
             role="listbox"
         >
             {#each filteredItems as item, i (item.id)}
-                {@const selected = item.id === selectedItem?.id}
+                {@const selected = selectedItemIds.includes(item.id)}
                 {@const highlighted = i === highlightedIndex}
                 <div
                     class="combobox__listbox-item"

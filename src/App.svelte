@@ -1,10 +1,10 @@
 <script lang="ts">
     import "./scss/app.scss";
     import Select from "./components/Select.svelte";
+    import MultiSelect from "./components/MultiSelect.svelte";
 
-    let value: number | undefined,
-        search = "",
-        selectedItem: any,
+    let value: any,
+        selectedItems: any[] = [],
         items: any[] = [
             { label: "Hello", value: 0 },
             { label: "Hello World", value: 2 },
@@ -34,54 +34,28 @@
 </script>
 
 <main>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-    <p>.</p>
-
-    <p>Value: {value}</p>
-
-    <label for="select">Select a thing</label>
-    <Select name="select" {items} bind:search bind:selectedItem bind:value />
+    <p>Selected Item: {value}</p>
 
     <p></p>
 
-    <label for="select_real">Select a thing</label>
-    <select id="select_real" {value}>
-        <option value></option>
-        {#each items as item}
-            <option value={item.value}>{item.label}</option>
+    <label for="select">Select a thing</label>
+    <Select name="select" {items} bind:value />
+
+    <p></p>
+
+    <p>Selected Items:</p>
+
+    <ul>
+        {#each selectedItems as item}
+            <li>{item.label}: {item.value}</li>
         {/each}
-    </select>
+    </ul>
 
     <p></p>
 
     <div style="font-size: 1.5rem;">
         <label for="select_2">Select a thing</label>
-        <Select
-            name="select_2"
-            {items}
-            bind:search
-            bind:selectedItem
-            bind:value
-        />
-
-        <p></p>
-
-        <label for="select_real_2">Select a thing</label>
-        <select id="select_real_2" {value}>
-            <option value></option>
-            {#each items as item}
-                <option value={item.value}>{item.label}</option>
-            {/each}
-        </select>
+        <MultiSelect name="select_2" {items} bind:selectedItems />
     </div>
 </main>
 
