@@ -18,7 +18,9 @@
         highlighted = false,
         tabindex = -1;
 
-    $: if (highlighted) ref?.scrollIntoView({ block: "nearest" });
+    $: if (highlighted && ref && !ref.matches(":hover")) {
+        ref.scrollIntoView({ block: "nearest" });
+    }
 </script>
 
 <div
