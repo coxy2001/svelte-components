@@ -75,7 +75,7 @@
     }
 
     function prev() {
-        if (highlightedIndex > 0) {
+        if (highlightedIndex > 0 && highlightedIndex < filteredItems.length) {
             highlightedIndex--;
         } else {
             highlightedIndex = filteredItems.length - 1;
