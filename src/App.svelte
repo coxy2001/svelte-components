@@ -45,12 +45,12 @@
     <p></p>
 
     <label for="select">Select a thing</label>
-    <ComboBox name="select" {items} bind:value />
+    <ComboBox id="select" {items} bind:value />
 
     <p></p>
 
     <label for="select_real">Select a thing</label>
-    <select name="select_real" bind:value>
+    <select id="select_real" bind:value>
         {#each items as item}
             <option value={item.value}>{item.label}</option>
         {/each}
@@ -59,7 +59,7 @@
     <p></p>
 
     <label for="select_2">Select a thing</label>
-    <ComboBoxMulti name="select_2" {items} bind:selectedItems />
+    <ComboBoxMulti id="select_2" {items} bind:selectedItems />
 </main>
 
 {#if modalOpen}

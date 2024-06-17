@@ -7,7 +7,7 @@
     import ListBoxItem from "./ListBoxItem.svelte";
     import { clickOutside } from "../lib/actions";
 
-    export let name: string,
+    export let id: string,
         search = "",
         selectedItems: IdItem[] = [],
         items: Item[] | undefined = undefined,
@@ -130,14 +130,13 @@
         {/if}
         <input
             type="text"
-            id={name}
-            name="{name}_input"
+            {id}
             class="combobox__input"
             class:combobox__input--empty={!search}
             class:combobox__input--selected={selectedItems.length}
             role="combobox"
             aria-autocomplete="list"
-            aria-controls="{name}_listbox"
+            aria-controls="{id}_listbox"
             aria-expanded={open}
             bind:this={input}
             bind:value={search}
@@ -161,7 +160,7 @@
     </button>
 
     {#if open}
-        <ListBox id="{name}_listbox" {top}>
+        <ListBox id="{id}_listbox" {top}>
             {#each filteredItems as item, i (item.id)}
                 <ListBoxItem
                     {item}

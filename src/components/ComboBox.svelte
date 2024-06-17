@@ -7,12 +7,14 @@
     import ListBoxItem from "./ListBoxItem.svelte";
     import { autoSelect, clickOutside } from "../lib/actions";
 
-    export let name: string,
+    export let id: string,
+        name = "",
         search = "",
         value: any = undefined,
         selectedItem: IdItem | undefined = undefined,
         items: Item[] | undefined = undefined,
-        idItems: IdItem[] | undefined = undefined;
+        idItems: IdItem[] | undefined = undefined,
+        hiddenInput = false;
 
     $: listItems =
         idItems ?? items?.map((item, i) => ({ id: i, ...item })) ?? [];
@@ -121,13 +123,12 @@
     >
         <input
             type="text"
-            id={name}
-            name="{name}_input"
+            {id}
             class="combobox__input"
             class:combobox__input--empty={!search}
             role="combobox"
             aria-autocomplete="list"
-            aria-controls="{name}_listbox"
+            aria-controls="{id}_listbox"
             aria-expanded={open}
             bind:this={input}
             bind:value={search}
@@ -152,7 +153,7 @@
     </button>
 
     {#if open}
-        <ListBox id="{name}_listbox" {top}>
+        <ListBox id="{id}_listbox" {top}>
             {#each filteredItems as item, i (item.id)}
                 <ListBoxItem
                     {item}
@@ -165,5 +166,9 @@
                 />
             {/each}
         </ListBox>
+    {/if}
+
+    {#if hiddenInput}
+        <input type="hidden" id="{id}_hidden" {name} value={value ?? ""} />
     {/if}
 </div>
