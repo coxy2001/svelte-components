@@ -42,7 +42,7 @@
                 expand();
             } else if (
                 highlightedIndex > -1 &&
-                highlightedIndex < filteredItems.length - 1
+                highlightedIndex < filteredItems.length
             ) {
                 select(highlightedIndex);
             } else if (search) {
