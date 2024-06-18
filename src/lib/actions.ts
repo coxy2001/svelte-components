@@ -13,17 +13,17 @@ export function autoSelect(node: HTMLInputElement | HTMLTextAreaElement) {
 }
 
 export function clickOutside(node: HTMLElement, callback: Function) {
-    function handleClick(event: MouseEvent) {
+    function onClick(event: MouseEvent) {
         if (!event.composedPath().includes(node)) {
             callback();
         }
     }
 
-    document.addEventListener("click", handleClick);
+    document.addEventListener("click", onClick);
 
     return {
         destroy() {
-            document.removeEventListener("click", handleClick);
+            document.removeEventListener("click", onClick);
         },
     };
 }

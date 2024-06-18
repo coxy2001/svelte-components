@@ -27,6 +27,7 @@
     let input: HTMLInputElement | undefined,
         open = false,
         top = false,
+        right = false,
         changed = false,
         highlightedIndex = -1;
 
@@ -43,9 +44,13 @@
         input?.focus();
 
         if (key === "Enter") {
+            event.preventDefault();
             if (!open) {
                 expand();
-            } else if (highlightedIndex >= 0) {
+            } else if (
+                highlightedIndex > -1 &&
+                highlightedIndex < filteredItems.length - 1
+            ) {
                 select(highlightedIndex);
             } else if (search) {
                 select(0);
@@ -95,8 +100,9 @@
             highlightedIndex = filteredItems.findIndex(
                 (item) => item.id === selectedItem?.id
             );
-            const inputHeight = input?.getBoundingClientRect().top ?? 0;
-            top = inputHeight / window.innerHeight > 0.5;
+            const inputRect = input?.getBoundingClientRect();
+            top = (inputRect?.top ?? 0) / window.innerHeight > 0.5;
+            right = (inputRect?.left ?? 0) / window.innerWidth > 0.5;
         } else if (!changed) {
             changed = true;
         }
@@ -116,7 +122,10 @@
     <button
         class="combobox__button"
         tabindex="-1"
-        on:click={() => (open ? collapse() : expand())}
+        on:click={(event) => {
+            event.preventDefault();
+            open ? collapse() : expand();
+        }}
         on:keyup={(event) => {
             if (event.key === " ") event.preventDefault();
         }}
@@ -153,7 +162,7 @@
     </button>
 
     {#if open}
-        <ListBox id="{id}_listbox" {top}>
+        <ListBox id="{id}_listbox" {top} {right}>
             {#each filteredItems as item, i (item.id)}
                 <ListBoxItem
                     {item}
